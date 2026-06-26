@@ -84,16 +84,16 @@ export function AppShell() {
           collapsed ? "w-[72px]" : "w-64",
         )}
       >
-        <div className="flex items-center gap-2 px-4 py-5">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-            <Beaker className="size-5" />
+        <div className="flex items-center gap-3 px-4 py-5">
+          <div className="flex size-10 items-center justify-center rounded-xl border-2 border-accent bg-accent/5">
+            <Beaker className="size-5 text-accent" strokeWidth={2.5} />
           </div>
           {!collapsed && (
             <div className="leading-tight">
-              <div className="text-base font-semibold">
+              <div className="text-base font-semibold text-sidebar-foreground">
                 Lab<span className="text-accent">Track</span>
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-sidebar-foreground/60">UM Davao</div>
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">UM Davao</div>
             </div>
           )}
         </div>
@@ -106,10 +106,10 @@ export function AppShell() {
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                   active
-                    ? "bg-accent text-accent-foreground shadow-sm"
-                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                    : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
                 )}
               >
                 {item.icon}
@@ -119,15 +119,15 @@ export function AppShell() {
           })}
         </nav>
 
-        <div className="border-t border-sidebar-border p-3">
+        <div className="border-t border-sidebar-border p-4">
           <div className={cn("flex items-center gap-3", collapsed && "justify-center")}>
-            <Avatar className="size-9">
+            <Avatar className="size-10 border-2 border-accent">
               <AvatarFallback className="bg-accent text-accent-foreground text-xs font-semibold">{user.initials}</AvatarFallback>
             </Avatar>
             {!collapsed && (
               <div className="min-w-0 flex-1">
-                <div className="truncate text-sm font-medium">{user.name}</div>
-                <div className="truncate text-xs text-sidebar-foreground/60">{user.sub}</div>
+                <div className="truncate text-sm font-medium text-sidebar-foreground">{user.name}</div>
+                <div className="truncate text-xs text-muted-foreground">{user.sub}</div>
               </div>
             )}
           </div>
