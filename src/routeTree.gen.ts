@@ -15,7 +15,9 @@ import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppSessionLogsRouteImport } from './routes/_app.session-logs'
 import { Route as AppScheduleGeneratorRouteImport } from './routes/_app.schedule-generator'
 import { Route as AppScheduleRouteImport } from './routes/_app.schedule'
+import { Route as AppRoomReservationRouteImport } from './routes/_app.room-reservation'
 import { Route as AppRoomOccupancyRouteImport } from './routes/_app.room-occupancy'
+import { Route as AppReservationRequestsRouteImport } from './routes/_app.reservation-requests'
 import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
 import { Route as AppFacultyMonitorRouteImport } from './routes/_app.faculty-monitor'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -50,9 +52,19 @@ const AppScheduleRoute = AppScheduleRouteImport.update({
   path: '/schedule',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRoomReservationRoute = AppRoomReservationRouteImport.update({
+  id: '/room-reservation',
+  path: '/room-reservation',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppRoomOccupancyRoute = AppRoomOccupancyRouteImport.update({
   id: '/room-occupancy',
   path: '/room-occupancy',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReservationRequestsRoute = AppReservationRequestsRouteImport.update({
+  id: '/reservation-requests',
+  path: '/reservation-requests',
   getParentRoute: () => AppRoute,
 } as any)
 const AppNotificationsRoute = AppNotificationsRouteImport.update({
@@ -82,7 +94,9 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/faculty-monitor': typeof AppFacultyMonitorRoute
   '/notifications': typeof AppNotificationsRoute
+  '/reservation-requests': typeof AppReservationRequestsRoute
   '/room-occupancy': typeof AppRoomOccupancyRoute
+  '/room-reservation': typeof AppRoomReservationRoute
   '/schedule': typeof AppScheduleRoute
   '/schedule-generator': typeof AppScheduleGeneratorRoute
   '/session-logs': typeof AppSessionLogsRoute
@@ -94,7 +108,9 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/faculty-monitor': typeof AppFacultyMonitorRoute
   '/notifications': typeof AppNotificationsRoute
+  '/reservation-requests': typeof AppReservationRequestsRoute
   '/room-occupancy': typeof AppRoomOccupancyRoute
+  '/room-reservation': typeof AppRoomReservationRoute
   '/schedule': typeof AppScheduleRoute
   '/schedule-generator': typeof AppScheduleGeneratorRoute
   '/session-logs': typeof AppSessionLogsRoute
@@ -108,7 +124,9 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/faculty-monitor': typeof AppFacultyMonitorRoute
   '/_app/notifications': typeof AppNotificationsRoute
+  '/_app/reservation-requests': typeof AppReservationRequestsRoute
   '/_app/room-occupancy': typeof AppRoomOccupancyRoute
+  '/_app/room-reservation': typeof AppRoomReservationRoute
   '/_app/schedule': typeof AppScheduleRoute
   '/_app/schedule-generator': typeof AppScheduleGeneratorRoute
   '/_app/session-logs': typeof AppSessionLogsRoute
@@ -122,7 +140,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/faculty-monitor'
     | '/notifications'
+    | '/reservation-requests'
     | '/room-occupancy'
+    | '/room-reservation'
     | '/schedule'
     | '/schedule-generator'
     | '/session-logs'
@@ -134,7 +154,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/faculty-monitor'
     | '/notifications'
+    | '/reservation-requests'
     | '/room-occupancy'
+    | '/room-reservation'
     | '/schedule'
     | '/schedule-generator'
     | '/session-logs'
@@ -147,7 +169,9 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/faculty-monitor'
     | '/_app/notifications'
+    | '/_app/reservation-requests'
     | '/_app/room-occupancy'
+    | '/_app/room-reservation'
     | '/_app/schedule'
     | '/_app/schedule-generator'
     | '/_app/session-logs'
@@ -203,11 +227,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppScheduleRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/room-reservation': {
+      id: '/_app/room-reservation'
+      path: '/room-reservation'
+      fullPath: '/room-reservation'
+      preLoaderRoute: typeof AppRoomReservationRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/room-occupancy': {
       id: '/_app/room-occupancy'
       path: '/room-occupancy'
       fullPath: '/room-occupancy'
       preLoaderRoute: typeof AppRoomOccupancyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/reservation-requests': {
+      id: '/_app/reservation-requests'
+      path: '/reservation-requests'
+      fullPath: '/reservation-requests'
+      preLoaderRoute: typeof AppReservationRequestsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/notifications': {
@@ -246,7 +284,9 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppFacultyMonitorRoute: typeof AppFacultyMonitorRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
+  AppReservationRequestsRoute: typeof AppReservationRequestsRoute
   AppRoomOccupancyRoute: typeof AppRoomOccupancyRoute
+  AppRoomReservationRoute: typeof AppRoomReservationRoute
   AppScheduleRoute: typeof AppScheduleRoute
   AppScheduleGeneratorRoute: typeof AppScheduleGeneratorRoute
   AppSessionLogsRoute: typeof AppSessionLogsRoute
@@ -258,7 +298,9 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppFacultyMonitorRoute: AppFacultyMonitorRoute,
   AppNotificationsRoute: AppNotificationsRoute,
+  AppReservationRequestsRoute: AppReservationRequestsRoute,
   AppRoomOccupancyRoute: AppRoomOccupancyRoute,
+  AppRoomReservationRoute: AppRoomReservationRoute,
   AppScheduleRoute: AppScheduleRoute,
   AppScheduleGeneratorRoute: AppScheduleGeneratorRoute,
   AppSessionLogsRoute: AppSessionLogsRoute,

@@ -16,6 +16,8 @@ import {
   ChevronRight,
   PanelLeftClose,
   PanelLeftOpen,
+  CalendarCheck,
+  Inbox,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useRole, type Role } from "@/lib/role-store";
@@ -41,24 +43,26 @@ function buildNav(role: Role, notifCount: number): NavSection[] {
   const ic = "size-[17px]" as const;
   const main: Record<Role, NavItem[]> = {
     Faculty: [
-      { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule", label: "My Schedule", icon: <CalendarDays className={ic} strokeWidth={1.75} /> },
-      { to: "/session-logs", label: "Session Logs", icon: <ClipboardList className={ic} strokeWidth={1.75} /> },
+      { to: "/dashboard",        label: "Dashboard",     icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
+      { to: "/schedule",         label: "My Schedule",   icon: <CalendarDays    className={ic} strokeWidth={1.75} /> },
+      { to: "/room-reservation", label: "Reserve a Room",icon: <CalendarCheck   className={ic} strokeWidth={1.75} /> },
+      { to: "/session-logs",     label: "Session Logs",  icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
     Custodian: [
-      { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule-generator", label: "Schedule Generator", icon: <Wand2 className={ic} strokeWidth={1.75} /> },
-      { to: "/faculty-monitor", label: "Faculty Monitor", icon: <Users className={ic} strokeWidth={1.75} /> },
-      { to: "/room-occupancy", label: "Room Occupancy", icon: <DoorOpen className={ic} strokeWidth={1.75} /> },
-      { to: "/session-logs", label: "Session Logs", icon: <ClipboardList className={ic} strokeWidth={1.75} /> },
+      { to: "/dashboard",             label: "Dashboard",            icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
+      { to: "/schedule-generator",    label: "Schedule Generator",   icon: <Wand2           className={ic} strokeWidth={1.75} /> },
+      { to: "/reservation-requests",  label: "Reservation Requests", icon: <Inbox           className={ic} strokeWidth={1.75} />, badge: 3 },
+      { to: "/faculty-monitor",       label: "Faculty Monitor",      icon: <Users           className={ic} strokeWidth={1.75} /> },
+      { to: "/room-occupancy",        label: "Room Occupancy",       icon: <DoorOpen        className={ic} strokeWidth={1.75} /> },
+      { to: "/session-logs",          label: "Session Logs",         icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
     Administrator: [
-      { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule", label: "All Schedules", icon: <CalendarDays className={ic} strokeWidth={1.75} /> },
-      { to: "/faculty-monitor", label: "Faculty Reports", icon: <Users className={ic} strokeWidth={1.75} /> },
-      { to: "/analytics", label: "Analytics", icon: <BarChart3 className={ic} strokeWidth={1.75} /> },
-      { to: "/room-occupancy", label: "Room Analytics", icon: <DoorOpen className={ic} strokeWidth={1.75} /> },
-      { to: "/session-logs", label: "System Logs", icon: <ClipboardList className={ic} strokeWidth={1.75} /> },
+      { to: "/dashboard",      label: "Dashboard",      icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
+      { to: "/schedule",       label: "All Schedules",  icon: <CalendarDays    className={ic} strokeWidth={1.75} /> },
+      { to: "/faculty-monitor",label: "Faculty Reports",icon: <Users           className={ic} strokeWidth={1.75} /> },
+      { to: "/analytics",      label: "Analytics",      icon: <BarChart3       className={ic} strokeWidth={1.75} /> },
+      { to: "/room-occupancy", label: "Room Analytics", icon: <DoorOpen        className={ic} strokeWidth={1.75} /> },
+      { to: "/session-logs",   label: "System Logs",    icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
   };
   return [
@@ -66,8 +70,8 @@ function buildNav(role: Role, notifCount: number): NavSection[] {
     {
       label: "ACCOUNT",
       items: [
-        { to: "/notifications", label: "Notifications", icon: <Bell className={ic} strokeWidth={1.75} />, badge: notifCount },
-        { to: "/settings", label: "Settings", icon: <Settings className={ic} strokeWidth={1.75} /> },
+        { to: "/notifications", label: "Notifications", icon: <Bell     className={ic} strokeWidth={1.75} />, badge: notifCount },
+        { to: "/settings",      label: "Settings",      icon: <Settings className={ic} strokeWidth={1.75} /> },
       ],
     },
   ];
@@ -498,17 +502,6 @@ export function AppShell() {
           >
             <Menu className="size-4" />
           </button>
-
-          {/* {collapsed && (
-            <button
-              onClick={() => setCollapsed(false)}
-              className="hidden size-9 items-center justify-center rounded-lg border bg-background hover:bg-muted md:flex"
-              aria-label="Expand sidebar"
-              title="Expand sidebar"
-            >
-              <PanelLeftOpen className="size-4" />
-            </button>
-          )} */}
 
           <div className="hidden flex-1 items-center gap-2 rounded-lg border bg-background px-3 py-2 lg:flex max-w-md">
             <Search className="size-4 text-muted-foreground" />
