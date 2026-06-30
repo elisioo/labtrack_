@@ -48,7 +48,7 @@ export const chatWithBot = createServerFn({ method: 'POST' })
 
     if (!GROQ_API_KEY) {
       console.error("❌ GROQ_API_KEY is not set in .env");
-      return { error: "AI service not configured. Add GEMINI_API_KEY to your .env file." };
+      return { error: "AI service not configured. Add groq to your .env file." };
     }
 
     // ✅ Fixed model name — gemini-2.0-flash-exp is deprecated, use gemini-2.0-flash

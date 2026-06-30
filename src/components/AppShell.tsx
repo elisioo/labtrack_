@@ -1,5 +1,7 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
+  CalendarCheck,
+  Inbox,
   LayoutDashboard,
   CalendarDays,
   ClipboardList,
@@ -43,24 +45,26 @@ function buildNav(role: Role, notifCount: number): NavSection[] {
   const ic = "size-[17px]" as const;
   const main: Record<Role, NavItem[]> = {
     Faculty: [
-      { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule", label: "My Schedule", icon: <CalendarDays className={ic} strokeWidth={1.75} /> },
-      { to: "/session-logs", label: "Session Logs", icon: <ClipboardList className={ic} strokeWidth={1.75} /> },
+       { to: "/dashboard",        label: "Dashboard",     icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
+      { to: "/schedule",         label: "My Schedule",   icon: <CalendarDays    className={ic} strokeWidth={1.75} /> },
+      { to: "/room-reservation", label: "Reserve a Room",icon: <CalendarCheck   className={ic} strokeWidth={1.75} /> },
+      { to: "/session-logs",     label: "Session Logs",  icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
     Custodian: [
-      { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule-generator", label: "Schedule Generator", icon: <Wand2 className={ic} strokeWidth={1.75} /> },
-      { to: "/faculty-monitor", label: "Faculty Monitor", icon: <Users className={ic} strokeWidth={1.75} /> },
-      { to: "/room-occupancy", label: "Room Occupancy", icon: <DoorOpen className={ic} strokeWidth={1.75} /> },
-      { to: "/session-logs", label: "Session Logs", icon: <ClipboardList className={ic} strokeWidth={1.75} /> },
+      { to: "/dashboard",             label: "Dashboard",            icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
+      { to: "/schedule-generator",    label: "Schedule Generator",   icon: <Wand2           className={ic} strokeWidth={1.75} /> },
+      { to: "/reservation-requests",  label: "Reservation Requests", icon: <Inbox           className={ic} strokeWidth={1.75} />, badge: 3 },
+      { to: "/faculty-monitor",       label: "Faculty Monitor",      icon: <Users           className={ic} strokeWidth={1.75} /> },
+      { to: "/room-occupancy",        label: "Room Occupancy",       icon: <DoorOpen        className={ic} strokeWidth={1.75} /> },
+      { to: "/session-logs",          label: "Session Logs",         icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
     Administrator: [
-      { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule", label: "All Schedules", icon: <CalendarDays className={ic} strokeWidth={1.75} /> },
-      { to: "/faculty-monitor", label: "Faculty Reports", icon: <Users className={ic} strokeWidth={1.75} /> },
-      { to: "/analytics", label: "Analytics", icon: <BarChart3 className={ic} strokeWidth={1.75} /> },
-      { to: "/room-occupancy", label: "Room Analytics", icon: <DoorOpen className={ic} strokeWidth={1.75} /> },
-      { to: "/session-logs", label: "System Logs", icon: <ClipboardList className={ic} strokeWidth={1.75} /> },
+        { to: "/dashboard",      label: "Dashboard",      icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
+      { to: "/schedule",       label: "All Schedules",  icon: <CalendarDays    className={ic} strokeWidth={1.75} /> },
+      { to: "/faculty-monitor",label: "Faculty Reports",icon: <Users           className={ic} strokeWidth={1.75} /> },
+      { to: "/analytics",      label: "Analytics",      icon: <BarChart3       className={ic} strokeWidth={1.75} /> },
+      { to: "/room-occupancy", label: "Room Analytics", icon: <DoorOpen        className={ic} strokeWidth={1.75} /> },
+      { to: "/session-logs",   label: "System Logs",    icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
   };
   return [
