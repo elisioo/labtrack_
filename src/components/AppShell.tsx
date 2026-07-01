@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   ChevronRight,
+  ChevronDown,
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
@@ -37,7 +38,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import ChatWidget from "@/components/Chatbot";
 import labtrackLogo from "@/assets/labtrack-logo.png";
 
-type NavItem = { to: string; label: string; icon: ReactNode; badge?: number };
+type NavItem = { to: string; label: string; icon: ReactNode; badge?: number; subItems?: { to: string; label: string }[] };
 
 type NavSection = { label: string; items: NavItem[] };
 
@@ -46,7 +47,15 @@ function buildNav(role: Role, notifCount: number): NavSection[] {
   const main: Record<Role, NavItem[]> = {
     Faculty: [
        { to: "/dashboard",        label: "Dashboard",     icon: <LayoutDashboard className={ic} strokeWidth={1.75} /> },
-      { to: "/schedule",         label: "My Schedule",   icon: <CalendarDays    className={ic} strokeWidth={1.75} /> },
+      { 
+        to: "/schedule/calendar",         
+        label: "My Schedule",   
+        icon: <CalendarDays    className={ic} strokeWidth={1.75} />,
+        subItems: [
+          { to: "/schedule/calendar", label: "Calendar" },
+          { to: "/schedule/classes", label: "Classes" },
+        ]
+      },
       { to: "/room-reservation", label: "Reserve a Room",icon: <CalendarCheck   className={ic} strokeWidth={1.75} /> },
       { to: "/session-logs",     label: "Session Logs",  icon: <ClipboardList   className={ic} strokeWidth={1.75} /> },
     ],
@@ -217,6 +226,20 @@ function SidebarContent({
   onUserClick?: () => void;
   onCollapse?: () => void;
 }) {
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set()); // Start with empty set (all collapsed)
+
+  const toggleExpanded = (to: string) => {
+    setExpandedItems((prev) => {
+      const next = new Set(prev);
+      if (next.has(to)) {
+        next.delete(to);
+      } else {
+        next.add(to);
+      }
+      return next;
+    });
+  };
+
   const done = 78;
   const total = 144;
   const remaining = total - done;
@@ -297,68 +320,133 @@ function SidebarContent({
             </div>
             <div className="space-y-[2px]">
               {section.items.map((item) => {
-                const active = pathname === item.to;
+                const active = pathname === item.to || item.subItems?.some(sub => pathname === sub.to);
+                const hasSubItems = item.subItems && item.subItems.length > 0;
+                const isExpanded = expandedItems.has(item.to);
+                
                 return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    onClick={onNavigate}
-                    className="relative flex items-center gap-[10px] rounded-lg transition-colors"
-                    style={{
-                      padding: "8px 10px",
-                      background: active ? "#f0fdfb" : "transparent",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!active) e.currentTarget.style.background = "#f9fafb";
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!active) e.currentTarget.style.background = "transparent";
-                    }}
-                  >
-                    {active && (
-                      <span
-                        aria-hidden
+                  <div key={item.to}>
+                    <div className="relative flex items-center">
+                      <Link
+                        to={item.to}
+                        onClick={onNavigate}
+                        className="flex-1 relative flex items-center gap-[10px] rounded-lg transition-colors"
                         style={{
-                          position: "absolute",
-                          left: 0,
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          width: 3,
-                          height: 18,
-                          background: "#0d9488",
-                          borderRadius: "0 3px 3px 0",
+                          padding: "8px 10px",
+                          background: active ? "#f0fdfb" : "transparent",
                         }}
-                      />
-                    )}
-                    <span style={{ color: active ? "#0d9488" : "#6b7280", display: "inline-flex" }}>
-                      {item.icon}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: 13,
-                        fontWeight: active ? 600 : 500,
-                        color: active ? "#0f766e" : "#6b7280",
-                      }}
-                      className="flex-1 truncate"
-                    >
-                      {item.label}
-                    </span>
-                    {item.badge && item.badge > 0 ? (
-                      <span
-                        style={{
-                          background: "#fef3c7",
-                          color: "#b45309",
-                          borderRadius: 10,
-                          fontSize: 10,
-                          fontWeight: 600,
-                          padding: "1px 6px",
-                          lineHeight: 1.4,
+                        onMouseEnter={(e) => {
+                          if (!active) e.currentTarget.style.background = "#f9fafb";
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!active) e.currentTarget.style.background = "transparent";
                         }}
                       >
-                        {item.badge}
-                      </span>
-                    ) : null}
-                  </Link>
+                        {active && (
+                          <span
+                            aria-hidden
+                            style={{
+                              position: "absolute",
+                              left: 0,
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              width: 3,
+                              height: 18,
+                              background: "#0d9488",
+                              borderRadius: "0 3px 3px 0",
+                            }}
+                          />
+                        )}
+                        <span style={{ color: active ? "#0d9488" : "#6b7280", display: "inline-flex" }}>
+                          {item.icon}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: 13,
+                            fontWeight: active ? 600 : 500,
+                            color: active ? "#0f766e" : "#6b7280",
+                          }}
+                          className="flex-1 truncate"
+                        >
+                          {item.label}
+                        </span>
+                        {item.badge && item.badge > 0 ? (
+                          <span
+                            style={{
+                              background: "#fef3c7",
+                              color: "#b45309",
+                              borderRadius: 10,
+                              fontSize: 10,
+                              fontWeight: 600,
+                              padding: "1px 6px",
+                              lineHeight: 1.4,
+                            }}
+                          >
+                            {item.badge}
+                          </span>
+                        ) : null}
+                      </Link>
+                      
+                      {/* Collapse/Expand Arrow Button */}
+                      {hasSubItems && (
+                        <button
+                          type="button"
+                          onClick={() => toggleExpanded(item.to)}
+                          className="absolute right-2 flex items-center justify-center rounded-md transition-colors hover:bg-slate-100"
+                          style={{
+                            width: 20,
+                            height: 20,
+                            color: active ? "#0d9488" : "#9ca3af",
+                          }}
+                          aria-label={isExpanded ? "Collapse" : "Expand"}
+                        >
+                          {isExpanded ? (
+                            <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
+                          ) : (
+                            <ChevronRight className="h-3.5 w-3.5" strokeWidth={2} />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                    
+                    {/* Sub-items */}
+                    {hasSubItems && isExpanded && (
+                      <div className="ml-[27px] mt-1 space-y-[2px]">
+                        {item.subItems!.map((subItem) => {
+                          const subActive = pathname === subItem.to;
+                          return (
+                            <Link
+                              key={subItem.to}
+                              to={subItem.to}
+                              onClick={onNavigate}
+                              className="block rounded-md transition-colors"
+                              style={{
+                                padding: "6px 10px",
+                                fontSize: 12,
+                                fontWeight: subActive ? 600 : 500,
+                                color: subActive ? "#0d9488" : "#9ca3af",
+                                background: subActive ? "#f0fdfa" : "transparent",
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!subActive) {
+                                  e.currentTarget.style.background = "#f9fafb";
+                                  e.currentTarget.style.color = "#6b7280";
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                if (!subActive) {
+                                  e.currentTarget.style.background = "transparent";
+                                  e.currentTarget.style.color = "#9ca3af";
+                                }
+                              }}
+                            >
+                              {subItem.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>

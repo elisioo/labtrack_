@@ -23,29 +23,32 @@ export const FACULTY_SUBJECTS = [
   {
     code: "IT321",
     name: "Systems Integration",
-    required: 54,
+    required: 54, // 18-week term
     logged: 36,
     room: "CS Lab 2",
     day: "Tue",
     timeSlot: "1:30–3:30 PM",
+    termDuration: 18,
   },
   {
     code: "CS401",
     name: "Capstone Project",
-    required: 36,
-    logged: 30,
+    required: 27, // 9-week term
+    logged: 20,
     room: "IT Lab 3",
     day: "Wed",
     timeSlot: "10:00 AM–12:00 NN",
+    termDuration: 9,
   },
   {
     code: "IT411",
     name: "Network Security",
-    required: 54,
+    required: 54, // 18-week term
     logged: 12,
     room: "CS Lab 2",
     day: "Thu",
     timeSlot: "1:30–3:30 PM",
+    termDuration: 18,
   },
 ];
 

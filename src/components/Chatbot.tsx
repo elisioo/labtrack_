@@ -33,10 +33,32 @@ export default function ChatWidget() {
     { id: 0, text: "👋 Wazzup! I'm LiMO. Your LabTracker. How can I help you with laboratory management today?", role: "bot" },
   ]);
   const [isSending, setIsSending] = useState(false);
+  const [isWaving, setIsWaving] = useState(false);
   const conversationHistory = useRef<ConversationMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const nextId = useRef(1);
+
+  // Make LiMO wave every 30 seconds
+  useEffect(() => {
+    if (isOpen) return; // Don't wave when chat is open
+    
+    const waveInterval = setInterval(() => {
+      setIsWaving(true);
+      setTimeout(() => setIsWaving(false), 1000); // Wave for 1 second
+    }, 30000); // Every 30 seconds
+
+    // Initial wave after 5 seconds
+    const initialWave = setTimeout(() => {
+      setIsWaving(true);
+      setTimeout(() => setIsWaving(false), 1000);
+    }, 5000);
+
+    return () => {
+      clearInterval(waveInterval);
+      clearTimeout(initialWave);
+    };
+  }, [isOpen]);
 
   // Auto-scroll to latest message
   useEffect(() => {
@@ -222,15 +244,28 @@ export default function ChatWidget() {
         </div>
       </div>
 
-      {/* Toggle Button */}
+      {/* Toggle Button with Wave Animation */}
       {!isOpen && (
         <button
-          style={styles.toggleBtn}
+          className="chatbot-toggle-btn"
+          style={{
+            animation: isWaving ? "wave 1s ease-in-out" : "none",
+          }}
           onClick={() => setIsOpen(true)}
           aria-label="Open chat"
         >
           {LOGO_TYPE === "image" && LOGO_IMAGE ? (
-            <img src={LOGO_IMAGE} alt="Chat" style={{ width: "60px", height: "60px", objectFit: "contain" }} />
+            <img 
+              src={LOGO_IMAGE} 
+              alt="Chat" 
+              style={{ 
+                width: "80px", 
+                height: "80px", 
+                objectFit: "contain",
+                filter: isWaving ? "drop-shadow(0 0 8px rgba(13, 148, 136, 0.6))" : "none",
+                transition: "filter 0.3s ease",
+              }} 
+            />
           ) : (
             "💬"
           )}
@@ -370,18 +405,5 @@ const styles: Record<string, React.CSSProperties> = {
     justifyContent: "center",
     flexShrink: 0,
     transition: "background 0.2s",
-  },
-  toggleBtn: {
-    width: 70,
-    height: 70,
-    borderRadius: "50%",
-    background: "transparent",
-    color: "white",
-    border: "none",
-    cursor: "pointer",
-    fontSize: 26,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
   },
 };

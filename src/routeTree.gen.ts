@@ -14,7 +14,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppSessionLogsRouteImport } from './routes/_app.session-logs'
 import { Route as AppScheduleGeneratorRouteImport } from './routes/_app.schedule-generator'
-import { Route as AppScheduleRouteImport } from './routes/_app.schedule'
 import { Route as AppRoomReservationRouteImport } from './routes/_app.room-reservation'
 import { Route as AppRoomOccupancyRouteImport } from './routes/_app.room-occupancy'
 import { Route as AppReservationRequestsRouteImport } from './routes/_app.reservation-requests'
@@ -22,6 +21,8 @@ import { Route as AppNotificationsRouteImport } from './routes/_app.notification
 import { Route as AppFacultyMonitorRouteImport } from './routes/_app.faculty-monitor'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
+import { Route as AppScheduleClassesRouteImport } from './routes/_app.schedule.classes'
+import { Route as AppScheduleCalendarRouteImport } from './routes/_app.schedule.calendar'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -45,11 +46,6 @@ const AppSessionLogsRoute = AppSessionLogsRouteImport.update({
 const AppScheduleGeneratorRoute = AppScheduleGeneratorRouteImport.update({
   id: '/schedule-generator',
   path: '/schedule-generator',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppScheduleRoute = AppScheduleRouteImport.update({
-  id: '/schedule',
-  path: '/schedule',
   getParentRoute: () => AppRoute,
 } as any)
 const AppRoomReservationRoute = AppRoomReservationRouteImport.update({
@@ -87,6 +83,16 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
+const AppScheduleClassesRoute = AppScheduleClassesRouteImport.update({
+  id: '/schedule/classes',
+  path: '/schedule/classes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppScheduleCalendarRoute = AppScheduleCalendarRouteImport.update({
+  id: '/schedule/calendar',
+  path: '/schedule/calendar',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -97,10 +103,11 @@ export interface FileRoutesByFullPath {
   '/reservation-requests': typeof AppReservationRequestsRoute
   '/room-occupancy': typeof AppRoomOccupancyRoute
   '/room-reservation': typeof AppRoomReservationRoute
-  '/schedule': typeof AppScheduleRoute
   '/schedule-generator': typeof AppScheduleGeneratorRoute
   '/session-logs': typeof AppSessionLogsRoute
   '/settings': typeof AppSettingsRoute
+  '/schedule/calendar': typeof AppScheduleCalendarRoute
+  '/schedule/classes': typeof AppScheduleClassesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -111,10 +118,11 @@ export interface FileRoutesByTo {
   '/reservation-requests': typeof AppReservationRequestsRoute
   '/room-occupancy': typeof AppRoomOccupancyRoute
   '/room-reservation': typeof AppRoomReservationRoute
-  '/schedule': typeof AppScheduleRoute
   '/schedule-generator': typeof AppScheduleGeneratorRoute
   '/session-logs': typeof AppSessionLogsRoute
   '/settings': typeof AppSettingsRoute
+  '/schedule/calendar': typeof AppScheduleCalendarRoute
+  '/schedule/classes': typeof AppScheduleClassesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -127,10 +135,11 @@ export interface FileRoutesById {
   '/_app/reservation-requests': typeof AppReservationRequestsRoute
   '/_app/room-occupancy': typeof AppRoomOccupancyRoute
   '/_app/room-reservation': typeof AppRoomReservationRoute
-  '/_app/schedule': typeof AppScheduleRoute
   '/_app/schedule-generator': typeof AppScheduleGeneratorRoute
   '/_app/session-logs': typeof AppSessionLogsRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/_app/schedule/calendar': typeof AppScheduleCalendarRoute
+  '/_app/schedule/classes': typeof AppScheduleClassesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -143,10 +152,11 @@ export interface FileRouteTypes {
     | '/reservation-requests'
     | '/room-occupancy'
     | '/room-reservation'
-    | '/schedule'
     | '/schedule-generator'
     | '/session-logs'
     | '/settings'
+    | '/schedule/calendar'
+    | '/schedule/classes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -157,10 +167,11 @@ export interface FileRouteTypes {
     | '/reservation-requests'
     | '/room-occupancy'
     | '/room-reservation'
-    | '/schedule'
     | '/schedule-generator'
     | '/session-logs'
     | '/settings'
+    | '/schedule/calendar'
+    | '/schedule/classes'
   id:
     | '__root__'
     | '/'
@@ -172,10 +183,11 @@ export interface FileRouteTypes {
     | '/_app/reservation-requests'
     | '/_app/room-occupancy'
     | '/_app/room-reservation'
-    | '/_app/schedule'
     | '/_app/schedule-generator'
     | '/_app/session-logs'
     | '/_app/settings'
+    | '/_app/schedule/calendar'
+    | '/_app/schedule/classes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -218,13 +230,6 @@ declare module '@tanstack/react-router' {
       path: '/schedule-generator'
       fullPath: '/schedule-generator'
       preLoaderRoute: typeof AppScheduleGeneratorRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/schedule': {
-      id: '/_app/schedule'
-      path: '/schedule'
-      fullPath: '/schedule'
-      preLoaderRoute: typeof AppScheduleRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/room-reservation': {
@@ -276,6 +281,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/schedule/classes': {
+      id: '/_app/schedule/classes'
+      path: '/schedule/classes'
+      fullPath: '/schedule/classes'
+      preLoaderRoute: typeof AppScheduleClassesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/schedule/calendar': {
+      id: '/_app/schedule/calendar'
+      path: '/schedule/calendar'
+      fullPath: '/schedule/calendar'
+      preLoaderRoute: typeof AppScheduleCalendarRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -287,10 +306,11 @@ interface AppRouteChildren {
   AppReservationRequestsRoute: typeof AppReservationRequestsRoute
   AppRoomOccupancyRoute: typeof AppRoomOccupancyRoute
   AppRoomReservationRoute: typeof AppRoomReservationRoute
-  AppScheduleRoute: typeof AppScheduleRoute
   AppScheduleGeneratorRoute: typeof AppScheduleGeneratorRoute
   AppSessionLogsRoute: typeof AppSessionLogsRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppScheduleCalendarRoute: typeof AppScheduleCalendarRoute
+  AppScheduleClassesRoute: typeof AppScheduleClassesRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -301,10 +321,11 @@ const AppRouteChildren: AppRouteChildren = {
   AppReservationRequestsRoute: AppReservationRequestsRoute,
   AppRoomOccupancyRoute: AppRoomOccupancyRoute,
   AppRoomReservationRoute: AppRoomReservationRoute,
-  AppScheduleRoute: AppScheduleRoute,
   AppScheduleGeneratorRoute: AppScheduleGeneratorRoute,
   AppSessionLogsRoute: AppSessionLogsRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppScheduleCalendarRoute: AppScheduleCalendarRoute,
+  AppScheduleClassesRoute: AppScheduleClassesRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

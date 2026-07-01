@@ -133,3 +133,40 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+
+/* Chatbot Wave Animation */
+@keyframes wave {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: rotate(-10deg) scale(1.1);
+  }
+  20%, 40%, 60%, 80% {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+/* Chatbot Hover Effect */
+.chatbot-toggle-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.chatbot-toggle-btn:hover {
+  transform: scale(1.15);
+}
+
+.chatbot-toggle-btn:active {
+  transform: scale(1.05);
+}
